@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'student_shop.urls'
+LOGIN_REDIRECT_URL = 'product_list'
 
 TEMPLATES = [
     {

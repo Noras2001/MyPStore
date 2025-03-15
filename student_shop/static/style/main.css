@@ -1,46 +1,84 @@
-*, html{
+/* Общие стили */
+/* Общие стили */
+*, html {
     box-sizing: border-box;
     margin: 0;
 }
-body{
+body {
     background-image: url("../img/gy.jpg");
     background-size: cover;
+    font-family: Arial, sans-serif;
 }
-h1{
+
+/* Заголовок */
+h1 {
     text-align: center;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 1em;
     color: white;
 }
-ul{
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    justify-content: space-around;
-    padding: 0;
-    margin: 0;
-}
-ul li{
+
+/* Навигация и ссылки авторизации */
+.auth-links {
+    text-align: right;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    justify-items: center;
-    align-items: center;
-    align-content: space-around;
+    color: white;
+}
+.add-product-btn {
+    display: inline-block;
+    background-color: aquamarine;
+    color: black;
+    padding: 10px 15px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Контейнер для карточек товаров - Grid с двумя колонками */
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* две равные колонки */
+    gap: 20px; /* промежуток между карточками */
+    padding: 10px;
+}
+
+/* Карточка товара */
+.product-card {
     border: 1px solid black;
     border-radius: 5px;
-    margin: 10px;
+    background-color: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 5px; /* уменьшенные внутренние отступы */
+}
+
+/* Изображение в карточке - уменьшенная высота */
+.product-card img {
+    width: 50%;
+    height: 70px;         /* уменьшенная высота для масштабирования */
+    object-fit: cover;    /* изображение подгоняется с обрезкой */
+}
+
+/* Информация о товаре */
+.product-info {
+    padding: 5px;
+    flex-grow: 1;
     text-align: center;
+    font-size: 0.9em;     /*  размер шрифта */
 }
 
-ul li form{
-    margin-top: auto;
+/* Пагинация */
+.pagination {
+    text-align: center;
+    margin: 20px 0;
 }
-ul li .price{
+.pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: blue;
+}
+.pagination span {
+    margin: 0 5px;
     font-weight: bold;
-}
-
-ul li img{
-    margin: auto 0;
 }

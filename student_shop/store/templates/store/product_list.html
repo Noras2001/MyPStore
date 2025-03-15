@@ -20,23 +20,117 @@
     </header>
     
     <h1>Список товаров</h1>
-    <ul>
-        {% for product in products %}
-        <li>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <p class="price">Цена: {{ product.price }}</p>
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
-            {% if user.is_authenticated %}
-                <form action="{% url 'add_to_cart' product.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Добавить в корзину</button>
-                </form>
-            {% else %}
-                <p>Авторизуйтесь для добавления в корзину</p>
-            {% endif %}
-        </li>
+    
+    <!-- Форма фильтрации и сортировки -->
+    <form id="filter-form">
+        <label>Категория:
+            <input type="text" name="category" placeholder="Введите категорию">
+        </label>
+        <label>Цена от:
+            <input type="number" step="0.01" name="min_price">
+        </label>
+        <label>Цена до:
+            <input type="number" step="0.01" name="max_price">
+        </label>
+        <label>Дата добавления (за последние дни):
+            <input type="number" name="last_days" placeholder="7, 30 и т.д.">
+        </label>
+        <br>
+        <label>Сортировать по:
+            <select name="sort_by">
+                <option value="">-- выберите --</option>
+                <option value="popularity">Популярность</option>
+                <option value="price">Цена</option>
+                <option value="date">Дата добавления</option>
+            </select>
+        </label>
+        <label>Порядок:
+            <select name="sort_order">
+                <option value="asc">По возрастанию</option>
+                <option value="desc">По убыванию</option>
+            </select>
+        </label>
+        <button type="submit">Применить</button>
+    </form>
+    
+    <!-- Контейнер для списка товаров (карточки) -->
+    <div id="product-list">
+        {% for product in page_obj %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="{% static 'img/default.jpg' %}" alt="Нет изображения">
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h2>{{ product.name }}</h2>
+                    <p>Цена: {{ product.price }} руб.</p>
+                    <p>Категория: {{ product.category }}</p>
+                    <p>Дата добавления: {{ product.date_added|date:"Y-m-d" }}</p>
+                    <p>Популярность: {{ product.orders_count }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>Нет товаров</p>
         {% endfor %}
-    </ul>
+    </div>
+    
+    <!-- Пагинация -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">« Предыдущая</a>
+        {% endif %}
+        <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая »</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        {% endif %}
+    </div>
+    
+    <!-- AJAX скрипт для динамической подгрузки данных -->
+    <script>
+    document.getElementById('filter-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const queryString = new URLSearchParams(formData).toString();
+
+        fetch(`?${queryString}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+
+            if (data.products.length === 0) {
+                productList.innerHTML = '<p>Нет товаров</p>';
+            } else {
+                data.products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product-card';
+                    productDiv.innerHTML = `
+                        <div class="product-image">
+                            <img src="${product.image_url || '{% static "img/default.jpg" %}'}" alt="${product.name}">
+                        </div>
+                        <div class="product-info">
+                            <h2>${product.name}</h2>
+                            <p>Цена: ${product.price} руб.</p>
+                            <p>Категория: ${product.category}</p>
+                            <p>Дата добавления: ${product.date_added}</p>
+                            <p>Популярность: ${product.orders_count}</p>
+                        </div>
+                    `;
+                    productList.appendChild(productDiv);
+                });
+            }
+        });
+    });
+    </script>
 </body>
 </html>

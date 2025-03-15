@@ -1,41 +1,62 @@
-*, html{
+/* Общие стили */
+*, html {
     box-sizing: border-box;
     margin: 0;
 }
-h1{
+
+/* Заголовок */
+h1 {
     text-align: center;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 1em;
 }
-ul{
-    display: flex;
-    flex-direction: row;
+
+/* Контейнер списка товаров (карточек) в корзине — используем Grid для двух колонок */
+ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* две равные колонки */
+    gap: 20px;
     list-style: none;
-    justify-content: space-around;
-    padding: 0;
+    padding: 10px;
     margin: 0;
     background-color: transparent;
 }
-ul li{
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    align-content: space-around;
+
+/* Стили для каждой карточки товара */
+ul li {
+    display: flex;           /* Используем Flexbox для выравнивания элементов в строку */
+    align-items: center;     /* Вертикальное выравнивание по центру */
     border: 1px solid black;
     border-radius: 5px;
-    margin: 10px;
-    text-align: center;
+    padding: 10px;
+    background-color: white;
 }
-.total-price{
+
+/* Стили для изображений в карточке */
+ul li img {
+    width: 70px;             /* Уменьшенная ширина */
+    height: 70px;            /* Уменьшенная высота */
+    object-fit: cover;       /* Изображение обрезается, чтобы заполнить область */
+    margin-right: 10px;      /* Отступ справа для разделения с текстом */
+}
+
+/* Стили для текстового блока внутри карточки */
+ul li .product-info {
+    flex: 1;                 /* Блок занимает оставшееся пространство */
+    text-align: left;        /* Выравнивание текста по левому краю */
+}
+
+/* Стили для суммарной цены */
+.total-price {
     display: block;
     text-align: center;
     margin: 0 auto;
     padding: 1em;
     font-size: 1.2em;
 }
-.back_buy{
+
+/* Кнопка "Вернуться к покупкам" */
+.back_buy {
     border-radius: 5px;
     background-color: aquamarine;
     width: 15%;
@@ -43,11 +64,13 @@ ul li{
     color: black;
     font-size: 1.1em;
 }
-.back_buy:hover{
+.back_buy:hover {
     background-color: rgb(0, 1, 65);
     color: yellow;
 }
-.reset_button{
+
+/* Кнопка "Очистить корзину" */
+.reset_button {
     border-radius: 5px;
     background-color: aquamarine;
     width: 15%;
@@ -57,7 +80,7 @@ ul li{
     padding: 1em;
     font-size: 1em;
 }
-.reset_button:hover{
+.reset_button:hover {
     background-color: rgb(0, 1, 65);
     color: yellow;
 }
