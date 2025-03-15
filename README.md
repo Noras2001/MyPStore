@@ -31,13 +31,14 @@ student_shop/              # Корневая папка проекта
 │   ├── migrations/        # Миграции для базы данных
 │   │   └── __init__.py    # Пакет миграций
 │   ├── templates/         # Шаблоны HTML
-│   │   └── store/         # Шаблоны приложения (например, product_list.html, add_product.html, login.html, register.html)
+│   │   └── store/         # Шаблоны приложения (product_list.html, add_product.html, login.html, register.html)
 │   ├── static/            # Статические файлы (CSS, изображения)
 │   ├── forms.py           # Формы для работы с моделями (например, для добавления товара)
 │   ├── models.py          # Модели (Product, CartItem)
 │   ├── views.py           # Представления (views)
 │   └── urls.py            # URL-конфигурация приложения
 └── requirements.txt       # Зависимости проекта (опционально)
+
 ```
 
 ## Установка и настройка
