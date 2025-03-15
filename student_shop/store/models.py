@@ -1,5 +1,5 @@
 from django.db import models
-from django.db import models
+
 from django.utils import timezone
 
 class Product(models.Model):
@@ -20,8 +20,6 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.product.name} ({self.quantity})"
 
-from django.db import models
-from django.utils import timezone
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
